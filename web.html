@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Vignan Hospital Management</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body Background */
+        body {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffd700;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 10;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 10px;
+            text-decoration: none;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background: #6a11cb;
+            color: white;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+        }
+
+        .auth-buttons button {
+            margin-left: 10px;
+            padding: 8px 15px;
+            border: none;
+            background: white;
+            color: #6a11cb;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-buttons button:hover {
+            background: #ffd700;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 350px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .modal h2 {
+            color: #6a11cb;
+            margin-bottom: 20px;
+        }
+
+        .modal input, .modal select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal button {
+            width: 100%;
+            padding: 10px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal button:hover {
+            background: #2575fc;
+        }
+
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Left Content */
+        .content {
+            max-width: 50%;
+        }
+
+        .content h2 {
+            color: #ffd700;
+            font-size: 24px;
+        }
+
+        .content h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .content p {
+            margin: 20px 0;
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #6a11cb;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #2575fc;
+        }
+
+        /* Right Side Image */
+        .image img {
+            max-width: 400px;
+            border-radius: 10px;
+        }
+
+        /* Added Footer Styles */
+        footer {
+            background-color: #000;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .footer-container {
+            width: 80%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 20px;
+        }
+
+        .footer-logo {
+            text-align: left;
+        }
+
+        .footer-logo img {
+            max-width: 150px;
+        }
+
+        .footer-quick-links ul, .footer-social-media ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-quick-links ul li, .footer-social-media ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-quick-links a, .footer-social-media a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer-address {
+            font-size: 0.9em;
+        }
+
+        .footer-form-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-form-container input, .footer-form-container textarea {
+            background-color: #333;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .footer-form-container button {
+            background-color: red;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .footer-group-companies {
+            text-align: right;
+        }
+
+        .footer-group-companies img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .footer-iso-logos {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-iso-logos img {
+            max-width: 50px;
+            margin: 0 10px;
+        }
+        .fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+  
+</style>
+</head>
+<body>
+    <header>
+        <div class="logo">Vignan Hospital</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a href="patient_register.php">Patient</a>
+                    <div class="dropdown-content">
+                        <a href="patient_register.php">Patient Details</a>
+
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Doctor</a>
+                    <div class="dropdown-content">
+                        <a href="doctor_register.php">Add Doctor</a>
+
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Appointments</a>
+                    <div class="dropdown-content">
+                        <a href="appointments.php">All Appointments</a>
+                        <a href="text.html">conversation</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Payments</a>
+                    <div class="dropdown-content">
+                        <a href="index1.html">Add Payments</a>
+             
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Ambulances</a>
+                    <div class="dropdown-content">
+                        <a href="ambulance_register.php">Add Ambulances</a>
+                        <a href="ambulance_list.php">Ambulances list</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Medical</a>
+                    <div class="dropdown-content">
+                        <a href="http://localhost/PHAMACY/phy.html">PHAMACY</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        
+            <div class="auth-buttons">
+                <a href="register.html"><button>Register</button></a>
+                
+            </div>
+            
+        
+    </header>
+    <section class="hero">
+        <div class="content">
+            <h2>Lorem Ipsum</h2>
+            <h1>WEB DESIGN</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut erat sagittis.</p>
+            <a href="register.html" class="btn">Get Started</a>
+        </div>
+        <div class="image">
+            <img src="logo1.jpg" alt="Web Design">
+        </div>
+    </section>
+
+    
+
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="your-apple-tech-logo.png" alt="AppleTech Logo">
+                <div class="footer-form-container">
+                    <input type="text" placeholder="Name*">
+                    <input type="email" placeholder="Email Address*">
+                    <textarea placeholder="Message and Contact Number*"></textarea>
+                    <button>SUBMIT</button>
+                </div>
+            </div>
+            <div class="footer-quick-links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Work</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+                <div class="footer-social-media">
+                    <h2>Social Media</h2>
+                    <a href="#" class="fa fa-facebook"></a>
+<a href="#" class="fa fa-twitter"></a>
+<a href="#" class="fa fa-google"></a>
+<a href="#" class="fa fa-linkedin"></a>
+                        <a href="#" class="fa fa-instagram"></a>
+                    
+                </div>
+            </div>
+            <div class="footer-address">
+                <h2>INDIA Head Office</h2>
+                <p>A-FF/102 Corporate Park,<br> Vadodara, Gujarat - 390012</p>
+                <p>IN: +90 (926) 561 2183</p>
+                <p>info@appletechsoft.com</p>
+
+                <h2>Costa Rica Office</h2>
+                <p>Calle 3, Canto de los Gavilanes,<br> Nicoya, Samara,<br> Costa Rica 50206</p>
+
+                <h2>USA Office</h2>
+                <p>1201 Orange Street,<br> Suite 600<br> Wilmington, DE 19801</p>
+                <p>US: +1 (203) 987 2021</p>
+
+                <div class="footer-group-companies">
+                    <h2>Group Companies</h2>
+                   <h6> <a href="#" class="fa fa-stumbleupon"></a>
+                    <a href="#" class="fa fa-flickr"></a>   </div>
+            </div>
+        </div>
+        <div class="footer-iso-logos">
+            <a href="#" class="fa fa-yahoo"></a>
+            <a href="#" class="fa fa-reddit"></a>
+            <a href="#" class="fa fa-rss"></a>
+        </div>
+    </footer>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = "flex";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>
